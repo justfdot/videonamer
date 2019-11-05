@@ -157,7 +157,9 @@ class VideoNamer():
             from tvshows import tvshows
             tvshows.add({
                 'link': self.linkpath,
-                'title': self.metadata['title']})
+                'title': self.metadata['title']
+                        if 'title' in self.metadata
+                        else self.metadata['series']})
 
 
 if __name__ == '__main__':
