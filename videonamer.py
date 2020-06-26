@@ -11,6 +11,7 @@ import os
 from ucli import ucli
 from docopt import docopt
 from guessit import guessit
+from datetime import datetime
 from mapi.providers import TVDb, TMDb
 from mapi.exceptions import MapiNotFoundException, MapiNetworkException
 
@@ -23,6 +24,7 @@ class VideoNamer():
     LINKS_DIR = '/home/justf/video-linked'
     TVDB_API_KEY = '9LZFREZNXWVXILC0'
     TMDB_API_KEY = '45ec0adac697ab86704c3530b219e6de'
+    CURRENT_YEAR = datetime.now().year
     tvdb_instance = None
     tmdb_instance = None
     candidates = []
@@ -71,7 +73,7 @@ class VideoNamer():
                 'series': ucli.get_field('title', necessary=True),
                 'season': ucli.get_field('season', default='1')}
 
-        metadata['year'] = ucli.get_field('year', default=None)
+        metadata['year'] = ucli.get_field('year', default=self.CURRENT_YEAR)
 
         return metadata
 
@@ -117,7 +119,7 @@ class VideoNamer():
             'type': self.media_type,
             'title': ucli.get_field('query', necessary=True)}
         if self.is_movie:
-            _fields['year'] = ucli.get_field('year', default=None)
+            _fields['year'] = ucli.get_field('year', default=self.CURRENT_YEAR)
         else:
             _fields['season'] = ucli.get_field('season', default='1')
             _fields['episode'] = 1
